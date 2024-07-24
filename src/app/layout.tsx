@@ -9,7 +9,7 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 export const metadata: Metadata = {
-  title: "Frover Labs",
+  title: "Company",
   description: "Email Facility",
 };
 
