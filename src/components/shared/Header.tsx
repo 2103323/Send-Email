@@ -11,7 +11,7 @@ const Header = () => {
     border-violet-700 border-2 border-secondary py-6"
       >
         <Link href="/" className="relative">
-          <h1 className="text-xl font-semibold">Frovers Lab</h1>
+          <h1 className="text-xl font-semibold">Company</h1>
           <Badge variant="default" className="absolute -right-8 -top-3">
             Admin
           </Badge>
