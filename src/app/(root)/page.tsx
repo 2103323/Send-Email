@@ -40,7 +40,7 @@ const emailOptions: { [key: string]: { subject: string; message: string } } = {
   },
 };
 
-// Updated form schema to handle multiple emails
+// Updated form schema to handle multiple emails and subject
 const formSchema = z.object({
   emailType: z.string().nonempty({ message: "Email type is required." }),
   email: z
@@ -62,6 +62,7 @@ const formSchema = z.object({
       { message: "One or more names are invalid." }
     )
     .optional(),
+  subject: z.string().nonempty({ message: "Subject is required." }),
   message: z
     .string()
     .min(10, { message: "Message must be at least 10 characters long." })
@@ -79,6 +80,7 @@ const CreateEvent = () => {
       emailType: "",
       email: "",
       name: "",
+      subject: "",
       message: "",
     },
   });
@@ -87,6 +89,7 @@ const CreateEvent = () => {
     const selectedOption = emailOptions[value];
     if (selectedOption) {
       form.setValue("email", "");
+      form.setValue("subject", selectedOption.subject);
       form.setValue("message", selectedOption.message);
       setShowHtmlMessage(value === "promotion");
     }
@@ -96,6 +99,7 @@ const CreateEvent = () => {
     setIsLoading(true);
     const emailType = data.emailType;
     const emails = data.email.split(",").map((email) => email.trim());
+    const subject = data.subject;
     const message = data.message;
 
     try {
@@ -103,6 +107,7 @@ const CreateEvent = () => {
         const formData = new FormData();
         formData.append("emailType", emailType);
         formData.append("email", email);
+        formData.append("subject", subject);
         formData.append("message", message);
 
         if (emailType === "promotion") {
@@ -185,6 +190,23 @@ const CreateEvent = () => {
                         {...field}
                         className="input-field text-black"
                         autoComplete="email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter subject"
+                        {...field}
+                        className="input-field text-black"
+                        autoComplete="subject"
                       />
                     </FormControl>
                     <FormMessage />

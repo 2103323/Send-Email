@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   const emailType = formData.get("emailType");
   const email = formData.get("email");
   const message = formData.get("message");
-
+  const subject = formData.get("subject");
   let name: string | null = null;
   if (emailType === "promotion") {
     name = formData.get("name") as string;
@@ -28,12 +28,12 @@ export async function POST(request: NextRequest) {
   // Create transporter object
   const transporter = nodemailer.createTransport({
     // service: 'gmail',
-    host: "smtp.resend.com",
-    secure: true, // true for 465, false for other ports
-    port: 465,
+    host: "smtp.gmail.com",
+    secure: false, // true for 465, false for other ports
+    port: 587,
     auth: {
-      user: "resend", // Use environment variable or secure storage for credentials
-      pass: "re_EqRAPJ41_JKeoPbrWb6dVkvffSvQ1AnRc",
+      user: username, // Use environment variable or secure storage for credentials
+      pass: password,
     },
   });
 
@@ -41,9 +41,9 @@ export async function POST(request: NextRequest) {
     if (emailType === "promotion") {
       if (name != null) {
         const mailOptions: MailOptions = {
-          from: "onboarding@resend.dev",
-          to: "delivered@resend.dev",
-          subject: "Hello World",
+          from: "suyashjadaun@gmail.com",
+          to: email as string,
+          subject: subject as string,
           html: `<!DOCTYPE html>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
@@ -1005,9 +1005,9 @@ export async function POST(request: NextRequest) {
         const mail = await transporter.sendMail(mailOptions);
       } else {
         const mailOptions: MailOptions = {
-          from: "onboarding@resend.dev",
-          to: "delivered@resend.dev",
-          subject: "Hello World",
+          from: "suyashjadaun@gmail.com",
+          to: email as string,
+          subject: subject as string,
           html: `${message}\n`,
         };
 
@@ -1015,9 +1015,9 @@ export async function POST(request: NextRequest) {
       }
     } else {
       const mailOptions: MailOptions = {
-        from: "onboarding@resend.dev",
-        to: "delivered@resend.dev",
-        subject: "Hello World",
+        from: "suyashjadaun@gmail.com",
+        to: email as string,
+        subject: subject as string,
         html: `${message}\n`,
       };
 
